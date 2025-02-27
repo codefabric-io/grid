@@ -1,6 +1,10 @@
+import { APP_GUARD } from '@nestjs/core';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './modules/auth/auth.module';
+import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
+import { UsersModule } from './modules/users/users.module';
 import configuration from './config/config';
 
 @Module({
@@ -19,6 +23,14 @@ import configuration from './config/config';
         synchronize: false, // Disable in production, use migrations instead
       }),
     }),
+    AuthModule,
+    UsersModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard, // Apply globally
+    },
   ],
 })
 export class AppModule {}
