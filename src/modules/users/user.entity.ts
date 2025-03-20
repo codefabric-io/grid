@@ -1,15 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'users' })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ unique: true })
   email: string;
-
-  @Column({ nullable: true }) // Allows easy removal later
-  password: string;
 
   @CreateDateColumn()
   createdAt: Date;
