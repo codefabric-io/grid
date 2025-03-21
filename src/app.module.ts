@@ -1,10 +1,11 @@
 import { APP_GUARD } from '@nestjs/core';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
 import { UsersModule } from './modules/users/users.module';
+import { RequestIdMiddleware } from './common/middleware/request-id.middleware';
 import configuration from './config/config';
 
 @Module({
@@ -33,4 +34,10 @@ import configuration from './config/config';
     },
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RequestIdMiddleware)
+      .forRoutes('*');
+  }
+}
