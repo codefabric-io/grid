@@ -26,7 +26,7 @@ export class AuthController {
   }
 
   @Public()
-  @Post('public-endpoint')
+  @Get('public-endpoint')
   publicEndpoint() {
     return { message: 'This is public! you can access without a token' };
   }
