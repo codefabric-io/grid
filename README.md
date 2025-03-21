@@ -61,7 +61,18 @@ Run the application in development mode:
 npm run start:dev
 ```
 
-Open your browser and point to `http://localhost:3000/auth/public-endpoint`
+Open your browser and point to
+
+`http://localhost:3000/health`
+```
+{
+    "status": "ok",
+    "db": "connected"
+}
+```
+and
+
+ `http://localhost:3000/auth/public-endpoint`
 
 ```
 {
@@ -69,7 +80,7 @@ Open your browser and point to `http://localhost:3000/auth/public-endpoint`
 }
 ```
 
-This means the API is working correctly
+This means the app is working correctly
 
 ## Setup Complete
 Once these steps are completed, the application should be running and ready for development.

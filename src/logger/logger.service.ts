@@ -2,6 +2,8 @@ import { LoggerService } from '@nestjs/common';
 import { createLogger, format, transports, Logger } from 'winston';
 import * as chalk from 'chalk';
 
+const os = require('os');
+
 export class AppLogger implements LoggerService {
   private readonly logger: Logger;
   private readonly isProduction: boolean;
@@ -16,6 +18,12 @@ export class AppLogger implements LoggerService {
     this.logger = createLogger({
       level: this.isProduction ? 'warn' : 'debug',
       format: logFormat,
+      defaultMeta: {
+        service: 'grid',
+        env: process.env.NODE_ENV || 'development',
+        hostname: os.hostname(),
+        version: process.env.APP_VERSION || 'dev'
+      },
       transports: [
         new transports.Console(),
       ],

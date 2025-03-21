@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtAuthGuard } from './modules/auth/jwt-auth.guard';
 import { UsersModule } from './modules/users/users.module';
+import { HealthModule } from './modules/health/health.module';
 import { RequestIdMiddleware } from './common/middleware/request-id.middleware';
 import configuration from './config/config';
 
@@ -26,6 +27,7 @@ import configuration from './config/config';
     }),
     AuthModule,
     UsersModule,
+    HealthModule,
   ],
   providers: [
     {
