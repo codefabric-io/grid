@@ -1,5 +1,10 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import { Observable, tap } from 'rxjs';
+import {
+  Injectable,
+  NestInterceptor,
+  ExecutionContext,
+  CallHandler
+} from '@nestjs/common';
+import { Observable, tap, catchError, throwError } from 'rxjs';
 import { AppLogger } from '../logger/logger.service';
 
 @Injectable()
@@ -16,8 +21,39 @@ export class LoggingInterceptor implements NestInterceptor {
       tap(() => {
         const statusCode = response.statusCode;
         const duration = Date.now() - now;
-        this.logger.log(`${method} ${url} - ${statusCode} - ${duration}ms`, `Request ${request.requestId}`);
+        this.logger.log(
+          `${method} ${url} - ${statusCode} - ${duration}ms`,
+          `Request ${request.requestId}`
+        );
       }),
+      catchError((err) => {
+        const duration = Date.now() - now;
+        const statusCode = err.status || 500;
+
+        this.logger.error(
+          `${method} ${url} - ${statusCode} - ${duration}ms - ${err.message}`,
+          err.stack,
+          `Request ${request.requestId}`
+        );
+
+        // TODO: integrate external error reporting (e.g., Sentry)
+        // Example:
+        // Sentry.withScope((scope) => {
+        //   scope.setTag('service', 'grid');
+        //   scope.setContext('request', {
+        //     method,
+        //     url,
+        //     headers: request.headers,
+        //     requestId: request.requestId,
+        //   });
+        //   if (request.user) {
+        //     scope.setUser({ email: request.user.email, id: request.user.id });
+        //   }
+        //   Sentry.captureException(err);
+        // });
+
+        return throwError(() => err);
+      })
     );
   }
 }

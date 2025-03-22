@@ -23,6 +23,7 @@ import configuration from './config/config';
         url: configService.get<string>('database.url'),
         autoLoadEntities: true,
         synchronize: false, // Disable in production, use migrations instead
+        retryAttempts: 10,
       }),
     }),
     AuthModule,
