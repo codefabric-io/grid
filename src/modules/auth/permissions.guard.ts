@@ -18,10 +18,10 @@ export class PermissionsGuard implements CanActivate {
       return false;
     }
 
-    // ✅ Convert ACL to a Map for faster lookups
+    // Convert ACL to a Map for faster lookups
     const aclMap = this.buildAclMap(user.acl);
 
-    // ✅ Check if the user has at least one required permission
+    // Check if the user has at least one required permission
     const hasPermission = requiredPermissions.some((requiredPermission) =>
       this.checkPermission(aclMap, requiredPermission)
     );
@@ -54,17 +54,17 @@ export class PermissionsGuard implements CanActivate {
   private checkPermission(aclMap: Map<string, Set<string>>, requiredPermission: string): boolean {
     const [requiredMethod, requiredPath] = this.splitAction(requiredPermission);
 
-    // ✅ Check for full access (* *)
+    // Check for full access (* *)
     if (aclMap.has('*') && aclMap.get('*')?.has('*')) {
       return true;
     }
 
-    // ✅ Check for exact match
+    // Check for exact match
     if (aclMap.has(requiredPath) && (aclMap.get(requiredPath)?.has('*') || aclMap.get(requiredPath)?.has(requiredMethod))) {
       return true;
     }
 
-    // ✅ Check for wildcard paths
+    // Check for wildcard paths
     for (const [aclPath, methods] of aclMap) {
       if (this.matchPath(aclPath, requiredPath) && (methods.has('*') || methods.has(requiredMethod))) {
         return true;
