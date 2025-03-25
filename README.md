@@ -4,7 +4,7 @@
 Grid is a backend system designed for managing field agents, tasks, and scheduling. It is built using NestJS and TypeORM to ensure scalability and maintainability. The system relies on an external authentication provider using JWT and implements Role-Based Access Control (RBAC) and Permission-Based Access Control (PBAC) to manage access and permissions effectively.
 
 ## Tech Stack
-- **Node.js** (v18+ recommended) - JavaScript runtime for executing server-side code
+- **Node.js** (v20+ recommended) - JavaScript runtime for executing server-side code
 - **NestJS** - Framework for building scalable and modular backend applications
 - **TypeORM** - Object-relational mapper for database interactions
 - **PostgreSQL** - Relational database used for data persistence
